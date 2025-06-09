@@ -77,6 +77,7 @@ namespace ControleDeEstoque
             Form1_Resize(this, EventArgs.Empty);
         }
 
+
         // Position and dimension of components
         private void Form1_Resize(object sender, EventArgs e)
         {
