@@ -43,11 +43,10 @@ namespace ControleDeEstoque
                 using (var con = DatabaseHelper.GetConnection())
                 using (var cmd = new SQLiteCommand(con))
                 {
-                    cmd.CommandText = "INSERT INTO inventory (name, quantity, price, aquisition_date) VALUES (@name, @quantity, @price, @aquisition_date)";
+                    cmd.CommandText = "INSERT INTO inventory (name, quantity, price) VALUES (@name, @quantity, @price)";
                     cmd.Parameters.AddWithValue("@name", txtName.Text);
                     cmd.Parameters.AddWithValue("@quantity", int.TryParse(txtQuantity.Text, out int q) ? q : 0);
                     cmd.Parameters.AddWithValue("@price", double.TryParse(txtPrice.Text, out double p) ? p : 0.0);
-                    cmd.Parameters.AddWithValue("@aquisition_date", DateTime.Now.ToString("dd-MM-yyyy"));
                     cmd.ExecuteNonQuery();
                 }
                 MessageBox.Show("Produto cadastrado com sucesso!");

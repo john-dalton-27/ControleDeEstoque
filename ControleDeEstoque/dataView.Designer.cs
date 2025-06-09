@@ -40,7 +40,6 @@
             name = new DataGridViewTextBoxColumn();
             quantity = new DataGridViewTextBoxColumn();
             price = new DataGridViewTextBoxColumn();
-            aquisition_date = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dbView).BeginInit();
             panelSuperior.SuspendLayout();
             SuspendLayout();
@@ -49,7 +48,7 @@
             // 
             dbView.BackgroundColor = SystemColors.ButtonHighlight;
             dbView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dbView.Columns.AddRange(new DataGridViewColumn[] { id, name, quantity, price, aquisition_date });
+            dbView.Columns.AddRange(new DataGridViewColumn[] { id, name, quantity, price });
             dbView.Location = new Point(0, 113);
             dbView.Name = "dbView";
             dbView.RowHeadersWidth = 100;
@@ -153,11 +152,6 @@
             price.HeaderText = "Preço";
             price.Name = "price";
             // 
-            // aquisition_date
-            // 
-            aquisition_date.HeaderText = "Data Compra";
-            aquisition_date.Name = "aquisition_date";
-            // 
             // DataView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -189,6 +183,5 @@
         private DataGridViewTextBoxColumn name;
         private DataGridViewTextBoxColumn quantity;
         private DataGridViewTextBoxColumn price;
-        private DataGridViewTextBoxColumn aquisition_date;
     }
 }

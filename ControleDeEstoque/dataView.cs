@@ -30,8 +30,7 @@ namespace ControleDeEstoque
                     dr["id"], 
                     dr["name"], 
                     dr["quantity"], 
-                    string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", dr["price"]), 
-                    dr["aquisition_date"]
+                    string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", dr["price"]) 
                 );
             }
             con.Close();
@@ -46,7 +45,7 @@ namespace ControleDeEstoque
                 using (var sqlite = new SQLiteConnection(@"Data Source=" + path + ";Version=3;"))
                 {
                     sqlite.Open();
-                    string sql = "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, price REAL NOT NULL, aquisition_date TEXT NOT NULL)";
+                    string sql = "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, price REAL NOT NULL)";
                     SQLiteCommand command = new SQLiteCommand(sql, sqlite);
                     command.ExecuteNonQuery();
                 }
@@ -128,7 +127,8 @@ namespace ControleDeEstoque
 
         private void btnSale_Click(object sender, EventArgs e)
         {
-
+            var saleDialog = new SaleDialog();
+            saleDialog.ShowDialog();
         }
 
     }
