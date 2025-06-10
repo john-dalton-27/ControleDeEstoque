@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             dbView = new DataGridView();
+            id = new DataGridViewTextBoxColumn();
+            name = new DataGridViewTextBoxColumn();
+            quantity = new DataGridViewTextBoxColumn();
+            price = new DataGridViewTextBoxColumn();
             btnEntry = new Button();
             btnSale = new Button();
             txtSearch = new TextBox();
@@ -36,10 +40,6 @@
             panelSuperior = new Panel();
             lblTitle = new Label();
             lblDate = new Label();
-            id = new DataGridViewTextBoxColumn();
-            name = new DataGridViewTextBoxColumn();
-            quantity = new DataGridViewTextBoxColumn();
-            price = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dbView).BeginInit();
             panelSuperior.SuspendLayout();
             SuspendLayout();
@@ -54,6 +54,27 @@
             dbView.RowHeadersWidth = 100;
             dbView.Size = new Size(1055, 355);
             dbView.TabIndex = 0;
+            // 
+            // id
+            // 
+            id.HeaderText = "ID";
+            id.Name = "id";
+            // 
+            // name
+            // 
+            name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            name.HeaderText = "Nome";
+            name.Name = "name";
+            // 
+            // quantity
+            // 
+            quantity.HeaderText = "Quantidade";
+            quantity.Name = "quantity";
+            // 
+            // price
+            // 
+            price.HeaderText = "Preço";
+            price.Name = "price";
             // 
             // btnEntry
             // 
@@ -130,27 +151,6 @@
             lblDate.Size = new Size(54, 19);
             lblDate.TabIndex = 5;
             lblDate.Text = "label1";
-            // 
-            // id
-            // 
-            id.HeaderText = "ID";
-            id.Name = "id";
-            // 
-            // name
-            // 
-            name.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            name.HeaderText = "Nome";
-            name.Name = "name";
-            // 
-            // quantity
-            // 
-            quantity.HeaderText = "Quantidade";
-            quantity.Name = "quantity";
-            // 
-            // price
-            // 
-            price.HeaderText = "Preço";
-            price.Name = "price";
             // 
             // DataView
             // 

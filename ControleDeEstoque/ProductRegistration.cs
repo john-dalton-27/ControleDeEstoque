@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ControleDeEstoque
 {
@@ -24,31 +25,15 @@ namespace ControleDeEstoque
             int posX = (this.ClientSize.Width - lblRegisterTitle.Width) / 2;
             lblRegisterTitle.Location = new Point(posX, lblRegisterTitle.Location.Y);
         }
-
-        public static class DatabaseHelper
-        {
-            public static string ConnectionString = @"URI=file:" + Application.StartupPath + "\\" + "inventory.db";
-            public static SQLiteConnection GetConnection()
-            {
-                var con = new SQLiteConnection(ConnectionString);
-                con.Open();
-                return con;
-            }
-        }
-
         private void btnRegister_Click(object sender, EventArgs e)
         {
             try
             {
-                using (var con = DatabaseHelper.GetConnection())
-                using (var cmd = new SQLiteCommand(con))
-                {
-                    cmd.CommandText = "INSERT INTO inventory (name, quantity, price) VALUES (@name, @quantity, @price)";
-                    cmd.Parameters.AddWithValue("@name", txtName.Text);
-                    cmd.Parameters.AddWithValue("@quantity", int.TryParse(txtQuantity.Text, out int q) ? q : 0);
-                    cmd.Parameters.AddWithValue("@price", double.TryParse(txtPrice.Text, out double p) ? p : 0.0);
-                    cmd.ExecuteNonQuery();
-                }
+                DatabaseHelper.InsertProduct(
+                    txtName.Text,
+                    int.TryParse(txtQuantity.Text, out int q) ? q : 0,
+                    double.TryParse(txtPrice.Text, out double p) ? p : 0.0
+                );
                 MessageBox.Show("Produto cadastrado com sucesso!");
                 this.Close();
             }

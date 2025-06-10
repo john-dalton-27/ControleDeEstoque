@@ -7,73 +7,28 @@ namespace ControleDeEstoque
 {
     public partial class DataView : Form
     {
-
-        // Database connection and operations
-        string path = "inventory.db";
-        string cs = @"URI=file:" + Application.StartupPath + "\\" + "inventory.db";
-
-        SQLiteConnection con;
-        SQLiteCommand cmd;
-        SQLiteDataReader dr;
-
-        // DataGridView to display the data
-        public void DataShow()
-        {
-            con = new SQLiteConnection(cs);
-            con.Open();
-            cmd = new SQLiteCommand("SELECT * FROM inventory", con);
-            dr = cmd.ExecuteReader();
-            dbView.Rows.Clear();
-            while (dr.Read())
-            {
-                dbView.Rows.Add(
-                    dr["id"], 
-                    dr["name"], 
-                    dr["quantity"], 
-                    string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", dr["price"]) 
-                );
-            }
-            con.Close();
-        }
-
-        // Create the database if it does not exist
-        private void createDatabase()
-        {
-            if (!File.Exists(path))
-            {
-                SQLiteConnection.CreateFile(path);
-                using (var sqlite = new SQLiteConnection(@"Data Source=" + path + ";Version=3;"))
-                {
-                    sqlite.Open();
-                    string sql = "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, price REAL NOT NULL)";
-                    SQLiteCommand command = new SQLiteCommand(sql, sqlite);
-                    command.ExecuteNonQuery();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Database already exists.");
-                return;
-            }
-        }
-
-        // Database connection
-        public SQLiteConnection GetConnection()
-        {
-            if (con == null)
-            {
-                con = new SQLiteConnection(cs);
-            }
-            return con;
-        }
-
-
         public DataView()
         {
             InitializeComponent();
             this.Resize += Form1_Resize;
             lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             Form1_Resize(this, EventArgs.Empty);
+        }
+
+        // DataGridView to display the data
+        public void DataShow()
+        {
+            dbView.Rows.Clear();
+            var table = DatabaseHelper.GetAllInventory();
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                dbView.Rows.Add(
+                    row["id"],
+                    row["name"],
+                    row["quantity"],
+                    string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", row["price"])
+                    );
+            }
         }
 
 
@@ -108,7 +63,7 @@ namespace ControleDeEstoque
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            createDatabase();
+            DatabaseHelper.CreateDatabase();
             DataShow();
         }
 

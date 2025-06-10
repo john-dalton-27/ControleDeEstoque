@@ -31,10 +31,8 @@
             lblRegisterTitle = new Label();
             lblName = new Label();
             txtName = new TextBox();
-            dtPicker = new DateTimePicker();
             lblQuantity = new Label();
             lblPrice = new Label();
-            lblDate = new Label();
             txtQuantity = new TextBox();
             txtPrice = new TextBox();
             btnRegister = new Button();
@@ -71,15 +69,6 @@
             txtName.Size = new Size(318, 32);
             txtName.TabIndex = 1;
             // 
-            // dtPicker
-            // 
-            dtPicker.Font = new Font("Arial Narrow", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dtPicker.Format = DateTimePickerFormat.Custom;
-            dtPicker.Location = new Point(213, 247);
-            dtPicker.Name = "dtPicker";
-            dtPicker.Size = new Size(318, 32);
-            dtPicker.TabIndex = 4;
-            // 
             // lblQuantity
             // 
             lblQuantity.AutoSize = true;
@@ -100,16 +89,6 @@
             lblPrice.TabIndex = 10;
             lblPrice.Text = "Preço:";
             // 
-            // lblDate
-            // 
-            lblDate.AutoSize = true;
-            lblDate.Font = new Font("Arial", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDate.Location = new Point(31, 255);
-            lblDate.Name = "lblDate";
-            lblDate.Size = new Size(166, 22);
-            lblDate.TabIndex = 11;
-            lblDate.Text = "Data da Compra:";
-            // 
             // txtQuantity
             // 
             txtQuantity.Font = new Font("Arial Narrow", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -128,7 +107,7 @@
             // 
             // btnRegister
             // 
-            btnRegister.Location = new Point(213, 304);
+            btnRegister.Location = new Point(133, 267);
             btnRegister.Name = "btnRegister";
             btnRegister.Size = new Size(144, 30);
             btnRegister.TabIndex = 5;
@@ -138,7 +117,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(387, 304);
+            btnCancel.Location = new Point(307, 267);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(144, 30);
             btnCancel.TabIndex = 6;
@@ -155,10 +134,8 @@
             Controls.Add(btnRegister);
             Controls.Add(txtPrice);
             Controls.Add(txtQuantity);
-            Controls.Add(lblDate);
             Controls.Add(lblPrice);
             Controls.Add(lblQuantity);
-            Controls.Add(dtPicker);
             Controls.Add(txtName);
             Controls.Add(lblName);
             Controls.Add(lblRegisterTitle);
@@ -178,10 +155,8 @@
         private Label lblRegisterTitle;
         private Label lblName;
         private TextBox txtName;
-        private DateTimePicker dtPicker;
         private Label lblQuantity;
         private Label lblPrice;
-        private Label lblDate;
         private TextBox txtQuantity;
         private TextBox txtPrice;
         private Button btnRegister;
