@@ -78,6 +78,8 @@
             // 
             // btnEntry
             // 
+            btnEntry.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEntry.ForeColor = Color.Lime;
             btnEntry.Location = new Point(319, 22);
             btnEntry.Name = "btnEntry";
             btnEntry.Size = new Size(154, 35);
@@ -89,6 +91,8 @@
             // btnSale
             // 
             btnSale.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSale.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSale.ForeColor = Color.Red;
             btnSale.Location = new Point(563, 22);
             btnSale.Name = "btnSale";
             btnSale.Size = new Size(152, 35);
@@ -104,6 +108,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(927, 23);
             txtSearch.TabIndex = 3;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // cbSearch
             // 
@@ -134,7 +139,7 @@
             lblTitle.AutoSize = true;
             lblTitle.BackColor = Color.Transparent;
             lblTitle.Font = new Font("Arial Black", 20F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblTitle.ForeColor = Color.Lime;
+            lblTitle.ForeColor = Color.Yellow;
             lblTitle.Location = new Point(381, 0);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(318, 38);
@@ -144,8 +149,9 @@
             // lblDate
             // 
             lblDate.AutoSize = true;
+            lblDate.BackColor = Color.Transparent;
             lblDate.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDate.ForeColor = Color.Red;
+            lblDate.ForeColor = Color.Yellow;
             lblDate.Location = new Point(12, 7);
             lblDate.Name = "lblDate";
             lblDate.Size = new Size(54, 19);

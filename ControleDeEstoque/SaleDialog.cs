@@ -15,6 +15,12 @@ namespace ControleDeEstoque
         public SaleDialog()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        private void saleTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -107,9 +107,11 @@
             // 
             // btnRegister
             // 
-            btnRegister.Location = new Point(133, 267);
+            btnRegister.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegister.ForeColor = Color.Lime;
+            btnRegister.Location = new Point(119, 267);
             btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(144, 30);
+            btnRegister.Size = new Size(152, 49);
             btnRegister.TabIndex = 5;
             btnRegister.Text = "Salvar";
             btnRegister.UseVisualStyleBackColor = true;
@@ -117,9 +119,11 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(307, 267);
+            btnCancel.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancel.ForeColor = Color.Red;
+            btnCancel.Location = new Point(319, 267);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(144, 30);
+            btnCancel.Size = new Size(152, 49);
             btnCancel.TabIndex = 6;
             btnCancel.Text = "Cancelar";
             btnCancel.UseVisualStyleBackColor = true;

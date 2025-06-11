@@ -10,9 +10,22 @@ namespace ControleDeEstoque
         public DataView()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.Resize += Form1_Resize;
             lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             Form1_Resize(this, EventArgs.Empty);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            DatabaseHelper.CreateDatabase();
+            DataShow();
+            cbSearch.Items.Clear();
+            cbSearch.Items.Add("ID");
+            cbSearch.Items.Add("Nome");
+            cbSearch.Items.Add("Quantidade");
+            cbSearch.Items.Add("Preço");
+            cbSearch.SelectedIndex = 1;
         }
 
         // DataGridView to display the data
@@ -31,6 +44,30 @@ namespace ControleDeEstoque
             }
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string selectedColumn = cbSearch.SelectedItem.ToString();
+            string dbColumn = selectedColumn switch
+            {
+                "ID" => "id",
+                "Nome" => "name",
+                "Quantidade" => "quantity",
+                "Preço" => "price",
+                _ => "name"
+            };
+
+            var table = DatabaseHelper.GetFilteredInventory(dbColumn, txtSearch.Text);
+            dbView.Rows.Clear();
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                dbView.Rows.Add(
+                    row["id"],
+                    row["name"],
+                    row["quantity"],
+                    string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", row["price"])
+                );
+            }
+        }
 
         // Position and dimension of components
         private void Form1_Resize(object sender, EventArgs e)
@@ -60,24 +97,11 @@ namespace ControleDeEstoque
             lblTitle.Location = new Point(lblTituloX, lblTituloY);
         }
 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            DatabaseHelper.CreateDatabase();
-            DataShow();
-        }
-
-        // Insert data into the database
+        // buttons to open dialogs
         private void btnEntry_Click(object sender, EventArgs e)
         {
-            var formRegister = new ProductRegistration();
-            formRegister.FormClosed += (s, args) =>
-            {
-                this.Show();
-                this.DataShow();
-            };
-            formRegister.Show();
-            this.Hide();
+            var registerDialog = new ProductRegistration();
+            registerDialog.ShowDialog();
         }
 
         private void btnSale_Click(object sender, EventArgs e)

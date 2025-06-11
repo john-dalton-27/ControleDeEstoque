@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             fileSystemWatcher1 = new FileSystemWatcher();
-            comboBox1 = new ComboBox();
+            cbSale = new ComboBox();
             btnConfirm = new Button();
             saleTitle = new Label();
             txtSaleName = new Label();
-            textBox1 = new TextBox();
+            txtQty = new TextBox();
             btnCancel = new Button();
             txtSaleQty = new Label();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
@@ -44,18 +44,20 @@
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
-            // comboBox1
+            // cbSale
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(98, 141);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(368, 23);
-            comboBox1.TabIndex = 0;
+            cbSale.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbSale.FormattingEnabled = true;
+            cbSale.Location = new Point(78, 140);
+            cbSale.Name = "cbSale";
+            cbSale.Size = new Size(251, 28);
+            cbSale.TabIndex = 0;
             // 
             // btnConfirm
             // 
             btnConfirm.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnConfirm.Location = new Point(158, 253);
+            btnConfirm.ForeColor = Color.Lime;
+            btnConfirm.Location = new Point(101, 253);
             btnConfirm.Name = "btnConfirm";
             btnConfirm.Size = new Size(161, 58);
             btnConfirm.TabIndex = 1;
@@ -66,11 +68,12 @@
             // 
             saleTitle.AutoSize = true;
             saleTitle.Font = new Font("Arial", 26.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            saleTitle.Location = new Point(216, 36);
+            saleTitle.Location = new Point(144, 33);
             saleTitle.Name = "saleTitle";
             saleTitle.Size = new Size(320, 40);
             saleTitle.TabIndex = 3;
             saleTitle.Text = "Saída de Produtos";
+            saleTitle.Click += saleTitle_Click;
             // 
             // txtSaleName
             // 
@@ -82,17 +85,19 @@
             txtSaleName.TabIndex = 4;
             txtSaleName.Text = "Nome:";
             // 
-            // textBox1
+            // txtQty
             // 
-            textBox1.Location = new Point(656, 141);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(55, 23);
-            textBox1.TabIndex = 6;
+            txtQty.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtQty.Location = new Point(494, 140);
+            txtQty.Name = "txtQty";
+            txtQty.Size = new Size(55, 26);
+            txtQty.TabIndex = 6;
             // 
             // btnCancel
             // 
             btnCancel.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancel.Location = new Point(497, 253);
+            btnCancel.ForeColor = Color.Red;
+            btnCancel.Location = new Point(340, 253);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(161, 58);
             btnCancel.TabIndex = 7;
@@ -103,7 +108,7 @@
             // 
             txtSaleQty.AutoSize = true;
             txtSaleQty.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtSaleQty.Location = new Point(527, 145);
+            txtSaleQty.Location = new Point(385, 149);
             txtSaleQty.Name = "txtSaleQty";
             txtSaleQty.Size = new Size(103, 19);
             txtSaleQty.TabIndex = 8;
@@ -113,14 +118,14 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(584, 361);
             Controls.Add(txtSaleQty);
             Controls.Add(btnCancel);
-            Controls.Add(textBox1);
+            Controls.Add(txtQty);
             Controls.Add(txtSaleName);
             Controls.Add(saleTitle);
             Controls.Add(btnConfirm);
-            Controls.Add(comboBox1);
+            Controls.Add(cbSale);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "SaleDialog";
             Text = "SaleDialog";
@@ -132,11 +137,11 @@
         #endregion
 
         private FileSystemWatcher fileSystemWatcher1;
-        private TextBox textBox1;
+        private TextBox txtQty;
         private Label txtSaleName;
         private Label saleTitle;
         private Button btnConfirm;
-        private ComboBox comboBox1;
+        private ComboBox cbSale;
         private Button btnCancel;
         private Label txtSaleQty;
     }

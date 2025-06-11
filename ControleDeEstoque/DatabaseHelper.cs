@@ -42,6 +42,19 @@ namespace ControleDeEstoque
             }
         }
 
+        public static DataTable GetFilteredInventory(string column, string value)
+        {
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            string query = $"SELECT * FROM inventory WHERE {column} LIKE @value";
+            using var cmd = new SQLiteCommand(query, con);
+            cmd.Parameters.AddWithValue("@value", "%" + value + "%");
+            using var adapter = new SQLiteDataAdapter(cmd);
+            var table = new DataTable();
+            adapter.Fill(table);
+            return table;
+        }
+
         public static void InsertProduct(string name, int quantity, double price)
         {
             using var con = new SQLiteConnection(ConnectionString);

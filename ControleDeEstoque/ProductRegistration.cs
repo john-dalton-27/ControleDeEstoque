@@ -18,6 +18,7 @@ namespace ControleDeEstoque
         public ProductRegistration()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void ProductRegistration_Load(object sender, EventArgs e)
