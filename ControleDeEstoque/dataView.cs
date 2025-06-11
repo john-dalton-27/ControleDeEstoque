@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using System;
 using System.Data.SQLite;
 using System.IO;
@@ -19,13 +20,13 @@ namespace ControleDeEstoque
         private void Form1_Load(object sender, EventArgs e)
         {
             DatabaseHelper.CreateDatabase();
-            DataShow();
             cbSearch.Items.Clear();
             cbSearch.Items.Add("ID");
             cbSearch.Items.Add("Nome");
             cbSearch.Items.Add("Quantidade");
             cbSearch.Items.Add("Preço");
             cbSearch.SelectedIndex = 1;
+            DataShow();
         }
 
         // DataGridView to display the data
@@ -101,6 +102,7 @@ namespace ControleDeEstoque
         private void btnEntry_Click(object sender, EventArgs e)
         {
             var registerDialog = new ProductRegistration();
+            registerDialog.RegisteredProduct += (s, args) => DataShow();
             registerDialog.ShowDialog();
         }
 

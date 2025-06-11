@@ -149,7 +149,6 @@
             MinimumSize = new Size(600, 400);
             Name = "ProductRegistration";
             Text = "Cadastro de Produtos";
-            Load += ProductRegistration_Load;
             ResumeLayout(false);
             PerformLayout();
         }

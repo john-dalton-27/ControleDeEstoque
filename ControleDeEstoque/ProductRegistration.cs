@@ -15,27 +15,80 @@ namespace ControleDeEstoque
 {
     public partial class ProductRegistration : Form
     {
+        public event EventHandler RegisteredProduct;
         public ProductRegistration()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+
+            txtQuantity.KeyPress += TxtQuantity_KeyPress;
+            txtPrice.KeyPress += TxtPrice_KeyPress;
         }
 
-        private void ProductRegistration_Load(object sender, EventArgs e)
+        private void TxtQuantity_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int posX = (this.ClientSize.Width - lblRegisterTitle.Width) / 2;
-            lblRegisterTitle.Location = new Point(posX, lblRegisterTitle.Location.Y);
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
+
+        private void TxtPrice_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ',' && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+        }
+
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            // Validação dos campos obrigatórios
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("O nome do produto é obrigatório.");
+                txtName.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+            {
+                MessageBox.Show("A quantidade é obrigatória.");
+                txtQuantity.Focus();
+                return;
+            }
+
+            if (!int.TryParse(txtQuantity.Text, out int q))
+            {
+                MessageBox.Show("Digite uma quantidade válida (apenas números inteiros).");
+                txtQuantity.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtPrice.Text))
+            {
+                MessageBox.Show("O preço é obrigatório.");
+                txtPrice.Focus();
+                return;
+            }
+
+            if (!double.TryParse(txtPrice.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double p))
+            {
+                MessageBox.Show("Digite um preço válido (apenas números).");
+                txtPrice.Focus();
+                return;
+            }
+
             try
             {
                 DatabaseHelper.InsertProduct(
                     txtName.Text,
-                    int.TryParse(txtQuantity.Text, out int q) ? q : 0,
-                    double.TryParse(txtPrice.Text, out double p) ? p : 0.0
+                    q,
+                    p
                 );
                 MessageBox.Show("Produto cadastrado com sucesso!");
+                RegisteredProduct?.Invoke(this, EventArgs.Empty);
                 this.Close();
             }
             catch (Exception ex)
