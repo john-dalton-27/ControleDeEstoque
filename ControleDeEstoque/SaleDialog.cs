@@ -12,6 +12,8 @@ namespace ControleDeEstoque
 {
     public partial class SaleDialog : Form
     {
+        public event EventHandler SaleRegisteredOrCancelled;
+
         public SaleDialog()
         {
             InitializeComponent();
@@ -21,6 +23,12 @@ namespace ControleDeEstoque
         private void saleTitle_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            SaleRegisteredOrCancelled?.Invoke(this, EventArgs.Empty);
+            this.Close();
         }
     }
 }

@@ -102,13 +102,14 @@ namespace ControleDeEstoque
         private void btnEntry_Click(object sender, EventArgs e)
         {
             var registerDialog = new ProductRegistration();
-            registerDialog.RegisteredProduct += (s, args) => DataShow();
+            registerDialog.RegisteredProductOrCancelled += (s, args) => DataShow();
             registerDialog.ShowDialog();
         }
 
         private void btnSale_Click(object sender, EventArgs e)
         {
             var saleDialog = new SaleDialog();
+            saleDialog.SaleRegisteredOrCancelled += (s, args) => DataShow();
             saleDialog.ShowDialog();
         }
 

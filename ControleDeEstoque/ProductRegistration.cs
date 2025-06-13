@@ -15,7 +15,8 @@ namespace ControleDeEstoque
 {
     public partial class ProductRegistration : Form
     {
-        public event EventHandler RegisteredProduct;
+        public event EventHandler RegisteredProductOrCancelled;
+
         public ProductRegistration()
         {
             InitializeComponent();
@@ -88,7 +89,7 @@ namespace ControleDeEstoque
                     p
                 );
                 MessageBox.Show("Produto cadastrado com sucesso!");
-                RegisteredProduct?.Invoke(this, EventArgs.Empty);
+                RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
                 this.Close();
             }
             catch (Exception ex)
@@ -99,7 +100,8 @@ namespace ControleDeEstoque
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+            RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+            this.Close();
         }
     }
 }
