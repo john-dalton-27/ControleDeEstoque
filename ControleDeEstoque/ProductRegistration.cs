@@ -17,6 +17,12 @@ namespace ControleDeEstoque
     {
         public event EventHandler RegisteredProductOrCancelled;
 
+        private void UpdateRadioButtonTabStops()
+        {
+            rbAdd.TabStop = !rbAdd.Checked;
+            rbRemove.TabStop = !rbRemove.Checked;
+        }
+
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (rbAdd.Checked)
@@ -24,6 +30,7 @@ namespace ControleDeEstoque
                 txtQuantity.Enabled = true;
                 txtPrice.Enabled = true;
             }
+            UpdateRadioButtonTabStops();
         }
 
         private void rbRemove_CheckedChanged(object sender, EventArgs e)
@@ -35,6 +42,7 @@ namespace ControleDeEstoque
                 txtQuantity.Text = "";
                 txtPrice.Text = "";
             }
+            UpdateRadioButtonTabStops();
         }
 
         public ProductRegistration()
@@ -43,6 +51,9 @@ namespace ControleDeEstoque
             this.StartPosition = FormStartPosition.CenterScreen;
             txtQuantity.KeyPress += TxtQuantity_KeyPress;
             txtPrice.KeyPress += TxtPrice_KeyPress;
+            rbAdd.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
+            rbRemove.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
+            UpdateRadioButtonTabStops();
         }
 
         private void TxtQuantity_KeyPress(object sender, KeyPressEventArgs e)
@@ -101,16 +112,40 @@ namespace ControleDeEstoque
                     return;
                 }
 
+                string nameLower = txtName.Text.ToLower();
+
                 try
                 {
-                    DatabaseHelper.InsertProduct(
-                        txtName.Text,
-                        q,
-                        p
-                    );
-                    MessageBox.Show("Produto cadastrado com sucesso!");
-                    RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
-                    this.Close();
+                    if (DatabaseHelper.ProductExists(nameLower))
+                    {
+                        var result = MessageBox.Show(
+                            $"O produto \"{txtName.Text}\" já existe. Deseja acrescentar a quantidade ao estoque?",
+                            "Produto já existe",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question
+                        );
+                        if (result == DialogResult.Yes)
+                        {
+                            bool updated = DatabaseHelper.UpdateProductQuantity(nameLower, q);
+                            if (updated)
+                                MessageBox.Show("Quantidade acrescentada ao estoque com sucesso!");
+                            else
+                                MessageBox.Show("Erro ao atualizar a quantidade do produto.");
+                            RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        DatabaseHelper.InsertProduct(
+                            nameLower,
+                            q,
+                            p
+                        );
+                        MessageBox.Show("Produto cadastrado com sucesso!");
+                        RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+                        this.Close();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -119,7 +154,6 @@ namespace ControleDeEstoque
             }
             else if (rbRemove.Checked)
             {
-                // Confirmação para remover
                 var result = MessageBox.Show(
                     $"Deseja realmente remover o produto \"{txtName.Text}\"?",
                     "Confirmação de Remoção",

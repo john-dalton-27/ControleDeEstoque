@@ -19,6 +19,14 @@ namespace ControleDeEstoque
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            rbEntry.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
+            rbSale.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
+            UpdateRadioButtonTabStops();
+        }
+        private void UpdateRadioButtonTabStops()
+        {
+            rbEntry.TabStop = !rbEntry.Checked;
+            rbSale.TabStop = !rbSale.Checked;
         }
 
         private void SaleDialog_Load(object sender, EventArgs e)
@@ -54,7 +62,7 @@ namespace ControleDeEstoque
             int qty = int.Parse(txtQty.Text);
             string name = cbSale.SelectedItem.ToString().ToLower();
 
-            int qtyChange = rbEntry.Checked ? qty : -qty; // Entrada: soma, Saída: subtrai
+            int qtyChange = rbEntry.Checked ? qty : -qty;
 
             bool success = DatabaseHelper.UpdateProductQuantity(name, qtyChange);
             if (!success)

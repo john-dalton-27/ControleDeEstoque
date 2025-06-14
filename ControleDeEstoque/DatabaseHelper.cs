@@ -66,12 +66,18 @@ namespace ControleDeEstoque
             cmd.ExecuteNonQuery();
         }
 
-        public static void DeleteAllInventory()
+        public static void DeleteAllInventoryAndResetId()
         {
             using var con = new SQLiteConnection(ConnectionString);
             con.Open();
-            using var cmd = new SQLiteCommand("DELETE FROM inventory", con);
-            cmd.ExecuteNonQuery();
+            using (var cmd = new SQLiteCommand("DELETE FROM inventory;", con))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            using (var cmd = new SQLiteCommand("DELETE FROM sqlite_sequence WHERE name='inventory';", con))
+            {
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public static List<string> GetAllProductNames()
@@ -141,6 +147,16 @@ namespace ControleDeEstoque
                 }
                 return true;
             }
+        }
+
+        public static bool ProductExists(string name)
+        {
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            using var cmd = new SQLiteCommand("SELECT COUNT(*) FROM inventory WHERE name = @name", con);
+            cmd.Parameters.AddWithValue("@name", name.ToLower());
+            long count = (long)cmd.ExecuteScalar();
+            return count > 0;
         }
     }
 }

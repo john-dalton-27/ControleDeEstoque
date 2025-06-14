@@ -104,9 +104,10 @@
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtSearch.Location = new Point(125, 79);
+            txtSearch.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSearch.Location = new Point(125, 76);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(927, 23);
+            txtSearch.Size = new Size(927, 26);
             txtSearch.TabIndex = 3;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -114,10 +115,11 @@
             // 
             cbSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             cbSearch.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSearch.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cbSearch.FormattingEnabled = true;
-            cbSearch.Location = new Point(3, 79);
+            cbSearch.Location = new Point(3, 76);
             cbSearch.Name = "cbSearch";
-            cbSearch.Size = new Size(116, 23);
+            cbSearch.Size = new Size(116, 27);
             cbSearch.TabIndex = 4;
             // 
             // panelSuperior

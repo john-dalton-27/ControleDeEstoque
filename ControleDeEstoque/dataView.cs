@@ -31,7 +31,6 @@ namespace ControleDeEstoque
             DataShow();
         }
 
-        // DataGridView to display the data
         public void DataShow()
         {
             dbView.Rows.Clear();
@@ -117,7 +116,6 @@ namespace ControleDeEstoque
 
         private void dbView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Supondo que a coluna "Quantidade" seja a coluna de índice 2
             if (dbView.Columns[e.ColumnIndex].Name == "quantity" || dbView.Columns[e.ColumnIndex].HeaderText == "Quantidade")
             {
                 if (e.Value != null && int.TryParse(e.Value.ToString(), out int qty))

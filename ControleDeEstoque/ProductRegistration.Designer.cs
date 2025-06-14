@@ -153,6 +153,7 @@
             rbRemove.Name = "rbRemove";
             rbRemove.Size = new Size(96, 23);
             rbRemove.TabIndex = 2;
+            rbRemove.TabStop = true;
             rbRemove.Text = "Remover";
             rbRemove.UseVisualStyleBackColor = true;
             rbRemove.CheckedChanged += rbRemove_CheckedChanged;

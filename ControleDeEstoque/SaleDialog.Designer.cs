@@ -128,6 +128,7 @@
             rbSale.Name = "rbSale";
             rbSale.Size = new Size(70, 23);
             rbSale.TabIndex = 4;
+            rbSale.TabStop = true;
             rbSale.Text = "Saída";
             rbSale.UseVisualStyleBackColor = true;
             // 
