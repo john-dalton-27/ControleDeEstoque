@@ -46,6 +46,7 @@
             // 
             // cbSale
             // 
+            cbSale.DropDownStyle = ComboBoxStyle.DropDownList;
             cbSale.Font = new Font("Arial Narrow", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbSale.FormattingEnabled = true;
             cbSale.Location = new Point(78, 140);
@@ -63,6 +64,7 @@
             btnConfirm.TabIndex = 1;
             btnConfirm.Text = "Confirmar";
             btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // saleTitle
             // 
@@ -103,6 +105,7 @@
             btnCancel.TabIndex = 7;
             btnCancel.Text = "Cancelar";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // txtSaleQty
             // 
@@ -129,6 +132,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "SaleDialog";
             Text = "SaleDialog";
+            Load += SaleDialog_Load;
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
             PerformLayout();

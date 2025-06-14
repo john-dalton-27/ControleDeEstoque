@@ -113,6 +113,7 @@
             // cbSearch
             // 
             cbSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            cbSearch.DropDownStyle = ComboBoxStyle.DropDownList;
             cbSearch.FormattingEnabled = true;
             cbSearch.Location = new Point(3, 79);
             cbSearch.Name = "cbSearch";

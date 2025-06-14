@@ -74,6 +74,42 @@ namespace ControleDeEstoque
             cmd.ExecuteNonQuery();
         }
 
-        // Adicione outros métodos conforme necessário (Update, Delete por ID, etc.)
+        public static List<string> GetAllProductNames()
+        {
+            var names = new List<string>();
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            using var cmd = new SQLiteCommand("SELECT name FROM inventory", con);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                names.Add(reader.GetString(0));
+            }
+            return names;
+        }
+
+        public static bool SubtractProductQuantity(string name, int quantityToSubtract)
+        {
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            // Verifica quantidade atual
+            using (var cmd = new SQLiteCommand("SELECT quantity FROM inventory WHERE name = @name", con))
+            {
+                cmd.Parameters.AddWithValue("@name", name);
+                var result = cmd.ExecuteScalar();
+                if (result == null) return false;
+                int currentQty = Convert.ToInt32(result);
+                if (quantityToSubtract > currentQty) return false; // Não permite estoque negativo
+
+                // Atualiza quantidade
+                using (var updateCmd = new SQLiteCommand("UPDATE inventory SET quantity = quantity - @qty WHERE name = @name", con))
+                {
+                    updateCmd.Parameters.AddWithValue("@qty", quantityToSubtract);
+                    updateCmd.Parameters.AddWithValue("@name", name);
+                    updateCmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+        }
     }
 }

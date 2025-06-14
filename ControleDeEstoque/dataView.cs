@@ -1,6 +1,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Data.SQLite;
+using System.Globalization;
 using System.IO;
 
 
@@ -15,6 +16,7 @@ namespace ControleDeEstoque
             this.Resize += Form1_Resize;
             lblDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             Form1_Resize(this, EventArgs.Empty);
+            dbView.CellFormatting += dbView_CellFormatting;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -38,7 +40,7 @@ namespace ControleDeEstoque
             {
                 dbView.Rows.Add(
                     row["id"],
-                    row["name"],
+                    CultureInfo.CurrentCulture.TextInfo.ToTitleCase(row["name"].ToString().ToLower()),
                     row["quantity"],
                     string.Format(System.Globalization.CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", row["price"])
                     );
@@ -113,5 +115,26 @@ namespace ControleDeEstoque
             saleDialog.ShowDialog();
         }
 
+        private void dbView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Supondo que a coluna "Quantidade" seja a coluna de índice 2
+            if (dbView.Columns[e.ColumnIndex].Name == "quantity" || dbView.Columns[e.ColumnIndex].HeaderText == "Quantidade")
+            {
+                if (e.Value != null && int.TryParse(e.Value.ToString(), out int qty))
+                {
+                    DataGridViewRow row = dbView.Rows[e.RowIndex];
+                    if (qty == 0)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.Red;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
     }
 }
