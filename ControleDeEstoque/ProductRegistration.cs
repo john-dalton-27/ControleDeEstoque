@@ -17,11 +17,30 @@ namespace ControleDeEstoque
     {
         public event EventHandler RegisteredProductOrCancelled;
 
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbAdd.Checked)
+            {
+                txtQuantity.Enabled = true;
+                txtPrice.Enabled = true;
+            }
+        }
+
+        private void rbRemove_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbRemove.Checked)
+            {
+                txtQuantity.Enabled = false;
+                txtPrice.Enabled = false;
+                txtQuantity.Text = "";
+                txtPrice.Text = "";
+            }
+        }
+
         public ProductRegistration()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
-
             txtQuantity.KeyPress += TxtQuantity_KeyPress;
             txtPrice.KeyPress += TxtPrice_KeyPress;
         }
@@ -45,7 +64,6 @@ namespace ControleDeEstoque
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            // Validação dos campos obrigatórios
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
                 MessageBox.Show("O nome do produto é obrigatório.");
@@ -53,55 +71,90 @@ namespace ControleDeEstoque
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+            if (rbAdd.Checked)
             {
-                MessageBox.Show("A quantidade é obrigatória.");
-                txtQuantity.Focus();
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(txtQuantity.Text))
+                {
+                    MessageBox.Show("A quantidade é obrigatória.");
+                    txtQuantity.Focus();
+                    return;
+                }
 
-            if (!int.TryParse(txtQuantity.Text, out int q))
-            {
-                MessageBox.Show("Digite uma quantidade válida (apenas números inteiros).");
-                txtQuantity.Focus();
-                return;
-            }
+                if (!int.TryParse(txtQuantity.Text, out int q))
+                {
+                    MessageBox.Show("Digite uma quantidade válida (apenas números inteiros).");
+                    txtQuantity.Focus();
+                    return;
+                }
 
-            if (string.IsNullOrWhiteSpace(txtPrice.Text))
-            {
-                MessageBox.Show("O preço é obrigatório.");
-                txtPrice.Focus();
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(txtPrice.Text))
+                {
+                    MessageBox.Show("O preço é obrigatório.");
+                    txtPrice.Focus();
+                    return;
+                }
 
-            if (!double.TryParse(txtPrice.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double p))
-            {
-                MessageBox.Show("Digite um preço válido (apenas números).");
-                txtPrice.Focus();
-                return;
-            }
+                if (!double.TryParse(txtPrice.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double p))
+                {
+                    MessageBox.Show("Digite um preço válido (apenas números).");
+                    txtPrice.Focus();
+                    return;
+                }
 
-            try
+                try
+                {
+                    DatabaseHelper.InsertProduct(
+                        txtName.Text,
+                        q,
+                        p
+                    );
+                    MessageBox.Show("Produto cadastrado com sucesso!");
+                    RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao cadastrar produto: " + ex.Message + "\n" + ex.StackTrace);
+                }
+            }
+            else if (rbRemove.Checked)
             {
-                DatabaseHelper.InsertProduct(
-                    txtName.Text,
-                    q,
-                    p
+                // Confirmação para remover
+                var result = MessageBox.Show(
+                    $"Deseja realmente remover o produto \"{txtName.Text}\"?",
+                    "Confirmação de Remoção",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
-                MessageBox.Show("Produto cadastrado com sucesso!");
-                RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao cadastrar produto: " + ex.Message + "\n" + ex.StackTrace);
+                if (result == DialogResult.Yes)
+                {
+                    string nameLower = txtName.Text.ToLower();
+                    bool removed = DatabaseHelper.DeleteProductByName(nameLower);
+                    if (removed)
+                        MessageBox.Show("Produto removido com sucesso!");
+                    else
+                        MessageBox.Show("Produto não encontrado!");
+
+                    RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+                    this.Close();
+                }
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
-            this.Close();
+            var result = MessageBox.Show(
+                "Deseja realmente fechar o cadastro? As informações não salvas serão perdidas.",
+                "Confirmação",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                RegisteredProductOrCancelled?.Invoke(this, EventArgs.Empty);
+                this.Close();
+            }
         }
     }
 }

@@ -52,14 +52,21 @@ namespace ControleDeEstoque
             }
 
             int qty = int.Parse(txtQty.Text);
-            string name = cbSale.SelectedItem.ToString();
+            string name = cbSale.SelectedItem.ToString().ToLower();
 
-            bool success = DatabaseHelper.SubtractProductQuantity(name, qty);
+            int qtyChange = rbEntry.Checked ? qty : -qty; // Entrada: soma, Saída: subtrai
+
+            bool success = DatabaseHelper.UpdateProductQuantity(name, qtyChange);
             if (!success)
             {
-                MessageBox.Show("Quantidade insuficiente em estoque ou produto não encontrado.");
+                MessageBox.Show("Operação inválida: quantidade insuficiente ou produto não encontrado.");
                 return;
             }
+
+            if (rbEntry.Checked)
+                MessageBox.Show("Quantidade adicionada com sucesso!");
+            else
+                MessageBox.Show("Quantidade removida com sucesso!");
 
             SaleRegisteredOrCancelled?.Invoke(this, EventArgs.Empty);
             this.Close();
@@ -67,8 +74,18 @@ namespace ControleDeEstoque
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            SaleRegisteredOrCancelled?.Invoke(this, EventArgs.Empty);
-            this.Close();
+            var result = MessageBox.Show(
+                "Deseja realmente fechar a janela? As informações não salvas serão perdidas.",
+                "Confirmação",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                SaleRegisteredOrCancelled?.Invoke(this, EventArgs.Empty);
+                this.Close();
+            }
         }
     }
 }

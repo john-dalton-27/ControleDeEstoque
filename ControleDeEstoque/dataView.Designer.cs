@@ -84,7 +84,7 @@
             btnEntry.Name = "btnEntry";
             btnEntry.Size = new Size(154, 35);
             btnEntry.TabIndex = 1;
-            btnEntry.Text = "Entrada";
+            btnEntry.Text = "Cadastro";
             btnEntry.UseVisualStyleBackColor = true;
             btnEntry.Click += btnEntry_Click;
             // 
@@ -97,7 +97,7 @@
             btnSale.Name = "btnSale";
             btnSale.Size = new Size(152, 35);
             btnSale.TabIndex = 2;
-            btnSale.Text = "Saída";
+            btnSale.Text = "Movimentação";
             btnSale.UseVisualStyleBackColor = true;
             btnSale.Click += btnSale_Click;
             // 

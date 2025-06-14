@@ -92,7 +92,6 @@ namespace ControleDeEstoque
         {
             using var con = new SQLiteConnection(ConnectionString);
             con.Open();
-            // Verifica quantidade atual
             using (var cmd = new SQLiteCommand("SELECT quantity FROM inventory WHERE name = @name", con))
             {
                 cmd.Parameters.AddWithValue("@name", name);
@@ -101,11 +100,43 @@ namespace ControleDeEstoque
                 int currentQty = Convert.ToInt32(result);
                 if (quantityToSubtract > currentQty) return false; // Não permite estoque negativo
 
-                // Atualiza quantidade
                 using (var updateCmd = new SQLiteCommand("UPDATE inventory SET quantity = quantity - @qty WHERE name = @name", con))
                 {
                     updateCmd.Parameters.AddWithValue("@qty", quantityToSubtract);
                     updateCmd.Parameters.AddWithValue("@name", name);
+                    updateCmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+        }
+
+        public static bool DeleteProductByName(string name)
+        {
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            using var cmd = new SQLiteCommand("DELETE FROM inventory WHERE name = @name", con);
+            cmd.Parameters.AddWithValue("@name", name);
+            int rowsAffected = cmd.ExecuteNonQuery();
+            return rowsAffected > 0;
+        }
+
+        public static bool UpdateProductQuantity(string name, int qtyChange)
+        {
+            using var con = new SQLiteConnection(ConnectionString);
+            con.Open();
+            using (var cmd = new SQLiteCommand("SELECT quantity FROM inventory WHERE name = @name", con))
+            {
+                cmd.Parameters.AddWithValue("@name", name.ToLower());
+                var result = cmd.ExecuteScalar();
+                if (result == null) return false;
+                int currentQty = Convert.ToInt32(result);
+                int newQty = currentQty + qtyChange;
+                if (newQty < 0) return false; // Não permite negativo
+
+                using (var updateCmd = new SQLiteCommand("UPDATE inventory SET quantity = @newQty WHERE name = @name", con))
+                {
+                    updateCmd.Parameters.AddWithValue("@newQty", newQty);
+                    updateCmd.Parameters.AddWithValue("@name", name.ToLower());
                     updateCmd.ExecuteNonQuery();
                 }
                 return true;
