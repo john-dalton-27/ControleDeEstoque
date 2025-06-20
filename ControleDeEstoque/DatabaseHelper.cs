@@ -8,8 +8,12 @@ namespace ControleDeEstoque
 {
     public static class DatabaseHelper
     {
-        private static readonly string ConnectionString = @"URI=file:" + Application.StartupPath + "\\inventory.db";
-        private static readonly string path = "inventory.db";
+        private static readonly string AppDataFolder = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "ControleDeEstoque"
+        );
+        private static readonly string DbPath = Path.Combine(AppDataFolder, "inventory.db");
+        private static readonly string ConnectionString = $"Data Source={DbPath};Version=3;";
 
         public static DataTable GetAllInventory()
         {
@@ -24,10 +28,13 @@ namespace ControleDeEstoque
 
         public static void CreateDatabase()
         {
-            if (!File.Exists(path))
+            if (!Directory.Exists(AppDataFolder))
+                Directory.CreateDirectory(AppDataFolder);
+
+            if (!File.Exists(DbPath))
             {
-                SQLiteConnection.CreateFile(path);
-                using (var sqlite = new SQLiteConnection(@"Data Source=" + path + ";Version=3;"))
+                SQLiteConnection.CreateFile(DbPath);
+                using (var sqlite = new SQLiteConnection($"Data Source={DbPath};Version=3;"))
                 {
                     sqlite.Open();
                     string sql = "CREATE TABLE inventory (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, quantity INTEGER NOT NULL, price REAL NOT NULL)";

@@ -53,7 +53,6 @@ namespace ControleDeEstoque
             txtPrice.KeyPress += TxtPrice_KeyPress;
             rbAdd.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
             rbRemove.CheckedChanged += (s, e) => UpdateRadioButtonTabStops();
-            UpdateRadioButtonTabStops();
         }
 
         private void TxtQuantity_KeyPress(object sender, KeyPressEventArgs e)
