@@ -82,5 +82,6 @@ git clone https://github.com/john-dalton-27/ControleDeEstoque.git
 3- Execute o ControleDeEstoque.exe via IDE ou pasta de saída (bin\Release\net8.0-windows\publish)
 
 ## 👤 Autor
-John Dalton
-GitHub • Unity Game Developer & C# Programmer
+[John Dalton](https://github.com/john-dalton-27)
+
+Unity Game Developer & C# Programmer.
