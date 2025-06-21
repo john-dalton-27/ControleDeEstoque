@@ -3,7 +3,6 @@
 [![Versão](https://img.shields.io/badge/vers%C3%A3o-1.0.0-blue)](https://github.com/john-dalton-27/ControleDeEstoque/releases)
 [![Plataforma](https://img.shields.io/badge/platform-Windows-lightgrey)](https://dotnet.microsoft.com/en-us/apps/desktop)
 [![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet)](https://learn.microsoft.com/dotnet/)
-[![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 
 ---
 
